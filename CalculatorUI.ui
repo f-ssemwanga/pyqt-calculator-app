@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>452</width>
+    <width>448</width>
     <height>641</height>
    </rect>
   </property>
@@ -83,12 +83,13 @@ QPushButton {
 
 #currentCalc{
 	font:15pt &quot;Comic Sans&quot;;
+    color:rgb(255, 255, 0);
 }
 QPushButton::hover{
 background-color:rgb(170, 170, 255);
 }</string>
    </property>
-   <widget class="QPushButton" name="allClear">
+   <widget class="QPushButton" name="clear">
     <property name="geometry">
      <rect>
       <x>120</x>
@@ -328,7 +329,7 @@ background-color:rgb(170, 170, 255);
      <string>0</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="decimalPoint">
+   <widget class="QPushButton" name="point">
     <property name="geometry">
      <rect>
       <x>230</x>
@@ -341,7 +342,7 @@ background-color:rgb(170, 170, 255);
      <string>.</string>
     </property>
    </widget>
-   <widget class="QLabel" name="calcScreen">
+   <widget class="QLabel" name="Screen">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -354,12 +355,25 @@ background-color:rgb(170, 170, 255);
      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;right&quot;&gt;0&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
    </widget>
-   <widget class="QLabel" name="currentCalc">
+   <widget class="QLabel" name="valueDisplay">
     <property name="geometry">
      <rect>
-      <x>20</x>
+      <x>180</x>
       <y>0</y>
-      <width>271</width>
+      <width>241</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="operatorDisplay">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>51</width>
       <height>31</height>
      </rect>
     </property>
