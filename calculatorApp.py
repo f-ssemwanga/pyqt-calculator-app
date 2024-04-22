@@ -29,6 +29,13 @@ class CalculatorUi(QtWidgets.QMainWindow):
         self.clear.clicked.connect(lambda: self.reset("0"))
         # add a decimal
         self.point.clicked.connect(self.addDecimal)
+        # delete characters
+        self.backspace.clicked.connect(self.deleteChar)
+        # handle Operators
+        self.add.clicked.connect(lambda: self.setOperator("+"))
+
+        # handle the equal sign
+        self.equals.clicked.connect(lambda: self.execute(True))
 
     def addNumber(self, numChar):
         """handles all numeric values and adds them to the display"""
@@ -46,6 +53,7 @@ class CalculatorUi(QtWidgets.QMainWindow):
             self.reset(numChar)
 
     def reset(self, value):
+        """resets variables and display screens"""
         self.Screen.setText(value)
         self.valueDisplay.setText("")
         self.operatorDisplay.setText("")
@@ -58,6 +66,7 @@ class CalculatorUi(QtWidgets.QMainWindow):
             self.hasDecimal = False
 
     def keyPressEvent(self, key):
+        """binding for keyboard keys"""
         if key.key() == Qt.Key_0:
             self.addNumber("0")
         if key.key() == Qt.Key_1:
@@ -81,6 +90,78 @@ class CalculatorUi(QtWidgets.QMainWindow):
         else:
             self.reset("0.")
 
+    def deleteChar(self):
+        """handles the backspace key"""
+        if not self.resultGiven:
+            if len(self.Screen.text()) > 1:
+                if self.Screen.text()[-1] == ".":
+                    self.hasDecimal = False
+                self.Screen.setText(self.Screen.text()[:-1])
+            else:
+                self.Screen.setText("0")
+        else:
+            self.reset("0")
+
+    def setOperator(self, operator):
+        """Sets the operator for the equation"""
+        if self.currentValue == "ERROR":
+            self.reset("0")
+            return
+        self.execute(False)
+
+        self.operatorDisplay.setText(operator)
+        self.currentOperator = operator
+        self.resultGiven = False
+
+    def execute(self, isFinal):
+        """Executes the equation within the calculator and handles errors"""
+        hasError = False
+        self.hasDecimal = False
+        if self.Screen.text() == "ERROR":
+            self.Screen.setText("0")
+        try:
+            if self.currentOperator == "+":
+                self.currentValue += float(self.Screen.text())
+            elif self.currentOperator == "-":
+                self.currentValue -= float(self.Screen.text())
+            elif self.currentOperator == "*":
+                self.currentValue *= float(self.Screen.text())
+            elif self.currentOperator == "/":
+                self.currentValue /= float(self.Screen.text())
+            elif self.currentOperator == "=":
+                self.currentValue = float(self.Screen.text())
+            elif self.currentOperator == "":
+                self.currentValue = float(self.Screen.text())
+
+            if type(self.currentValue) == complex:
+                hasError = True
+        except ZeroDivisionError:
+            hasError = True
+        if (
+            len(str(self.currentValue)) > 2
+            and str(self.currentValue)[-2] == "."
+            and str(self.currentValue)[-1] == "0"
+        ):
+            self.currentValue = round(self.currentValue)
+        if not hasError:
+            if isFinal:
+                if self.valueDisplay.text() != "":
+                    self.Screen.setText(str(self.currentValue))
+                    self.valueDisplay.setText("")
+                    self.operatorDisplay.setText("=")
+                    self.currentOperator = "="
+                    self.resultGiven = True
+            else:
+                self.valueDisplay.setText(str(self.currentValue))
+                self.Screen.setText("0")
+        else:
+            self.Screen.setText("ERROR")
+            self.valueDisplay.setText("")
+            self.operatorDisplay.setText("")
+            self.currentOperator = ""
+            self.currentValue = "ERROR"
+            self.resultGiven = True
+
 
 def mainApplication():
     """main application for loading the window instance"""
@@ -89,7 +170,7 @@ def mainApplication():
     window.show()
 
     app.quit()
-    sys.exit(app.exec_())  #
+    sys.exit(app.exec_())
 
 
 mainApplication()

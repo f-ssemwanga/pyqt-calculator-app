@@ -121,7 +121,7 @@ background-color:rgb(170, 170, 255);
      <string>Science</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="plusMinus">
+   <widget class="QPushButton" name="backspace">
     <property name="geometry">
      <rect>
       <x>230</x>
@@ -131,7 +131,7 @@ background-color:rgb(170, 170, 255);
      </rect>
     </property>
     <property name="text">
-     <string>+/-</string>
+     <string>⌫</string>
     </property>
    </widget>
    <widget class="QPushButton" name="divide">
